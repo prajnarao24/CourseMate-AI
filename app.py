@@ -31,21 +31,6 @@ for key, value in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
-# ---------------- SIDEBAR: PREVIOUSLY UPLOADED PDFs ---------------- #
-with st.sidebar:
-    st.header("Uploaded PDFs")
-    if st.session_state.pdf_files:
-        selected_pdf = st.selectbox(
-            "Preview a PDF",
-            options=list(st.session_state.pdf_files.keys())
-        )
-        if selected_pdf:
-            pdf_bytes = st.session_state.pdf_files[selected_pdf]
-            base64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
-            pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="600" type="application/pdf"></iframe>'
-            st.markdown(pdf_display, unsafe_allow_html=True)
-    else:
-        st.caption("No PDFs uploaded yet.")
 
 # ---------------- PDF UPLOAD ---------------- #
 uploaded_files = st.file_uploader(

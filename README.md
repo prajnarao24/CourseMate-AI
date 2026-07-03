@@ -127,7 +127,6 @@ Built with **Python, Streamlit, LangChain, Hugging Face Embeddings, ChromaDB, an
 * 🔍 Semantic search with Hugging Face embeddings
 * 📚 Retrieval-Augmented Generation (RAG) pipeline
 * 🧠 Context-aware responses based only on uploaded documents
-* 📑 Built-in PDF preview in the sidebar
 * 💾 Chat history maintained during the session
 * ⚡ Clean and interactive Streamlit interface
 
