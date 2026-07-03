@@ -1,0 +1,47 @@
+# LLM
+langchain
+langchain-core
+langchain-community
+langchain-mistralai
+langchain-huggingface 
+langchain_chroma
+
+
+
+# Embeddings
+sentence-transformers
+
+# Vector Database
+chromadb
+
+# Document Loaders
+pypdf
+python-docx
+unstructured
+beautifulsoup4
+
+# Tokenization
+tiktoken
+
+# Environment Variables
+python-dotenv
+
+# UI
+streamlit
+
+# Data Validation
+pydantic
+
+# Utilities
+numpy
+pandas
+
+# Optional OCR (if you plan to read scanned PDFs/images)
+pytesseract
+Pillow
+
+# Logging & Progress
+tqdm
+
+#load pdf doc
+pypdf
