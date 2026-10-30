@@ -5,7 +5,7 @@ langchain-community
 langchain-mistralai
 langchain-huggingface 
 langchain_chroma
-
+langchain-groq
 
 
 # Embeddings
