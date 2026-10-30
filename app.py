@@ -18,13 +18,6 @@ from langchain_core.prompts import ChatPromptTemplate
 
 load_dotenv()
 
-# Load Groq API key from Streamlit Cloud secrets if available
-try:
-    if "GROQ_API_KEY" in st.secrets:
-        os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
-except Exception:
-    pass
-
 
 # ---------------- PAGE CONFIGURATION ---------------- #
 
@@ -32,6 +25,18 @@ st.set_page_config(
     page_title="CourseMate",
     layout="wide"
 )
+
+
+# ---------------- GROQ API KEY ---------------- #
+
+groq_api_key = os.getenv("GROQ_API_KEY")
+
+# Read from Streamlit Cloud secrets if not found locally
+if not groq_api_key:
+    try:
+        groq_api_key = st.secrets["GROQ_API_KEY"]
+    except Exception:
+        groq_api_key = None
 
 
 # ---------------- APPLICATION TITLE ---------------- #
@@ -109,6 +114,12 @@ if uploaded_files:
 
                 chunks = splitter.split_documents(all_docs)
 
+                if not chunks:
+                    st.error(
+                        "No readable text found in the uploaded PDFs."
+                    )
+                    st.stop()
+
                 # Create embeddings
                 embedding_model = HuggingFaceEmbeddings(
                     model_name="BAAI/bge-small-en-v1.5"
@@ -130,22 +141,22 @@ if uploaded_files:
                     }
                 )
 
-                # Initialize Groq LLM
-                groq_api_key = os.getenv("GROQ_API_KEY")
-
+                # Check Groq API key
                 if not groq_api_key:
                     st.error(
-                        "Groq API key not found. "
-                        "Please configure GROQ_API_KEY in your .env file."
+                        "GROQ_API_KEY is missing. "
+                        "Please configure it in Streamlit Cloud Secrets "
+                        "or your local .env file."
                     )
                     st.stop()
 
+                # Initialize Groq LLM
                 st.session_state.llm = ChatGroq(
-    model="openai/gpt-oss-120b",
-    groq_api_key=groq_api_key,
-    temperature=0.2,
-    max_retries=0
-)
+                    model="openai/gpt-oss-120b",
+                    groq_api_key=groq_api_key,
+                    temperature=0.2,
+                    max_retries=0
+                )
 
                 # Create prompt
                 st.session_state.prompt = ChatPromptTemplate.from_messages([
